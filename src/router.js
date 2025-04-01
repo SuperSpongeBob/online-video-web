@@ -159,8 +159,8 @@ router.beforeEach((to, from, next) => {
     if (to.path === ('/') || to.path === ('/login') || to.path === ('/register') || to.path === ('/forgetPassword') || to.path === ('/index') || to.path==("/home")) {
         return next()
     }
-    //  由于服务器在未登录情况下敏感数据也无法获取到，前端页面进去了也没有，取消守卫功能了
-    
+    //  由于服务器在未登录情况下敏感数据也无法获取到，前端页面进去了也没用，取消守卫功能了
+
     // const token = sessionStorage.getItem('LoginState')
 
     // if (!token) {
@@ -169,7 +169,6 @@ router.beforeEach((to, from, next) => {
     // }
 
     next()
-
 
 
     // if(!token){
