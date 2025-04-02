@@ -207,7 +207,6 @@
                     <el-table-column prop="videoAlbumName" label="专辑名称" show-overflow-tooltip />
                     <el-table-column prop="videoReleaseDate" label="上映日期" width="100" show-overflow-tooltip />
                     <el-table-column prop="videoSummary" label="专辑简介" show-overflow-tooltip />
-                    <el-table-column prop="videoPlayNumber" label="播放量" width="70" show-overflow-tooltip />
                     <el-table-column prop="videoChannel" label="频道" width="60" show-overflow-tooltip />
                     <el-table-column prop="videoDirector" label="导演" width="80" show-overflow-tooltip />
                     <el-table-column prop="videoArea" label="地区" width="60" show-overflow-tooltip />
@@ -700,7 +699,6 @@ export default {
                     videoAlbumName: item.videoAlbumName,
                     videoReleaseDate: item.videoReleaseDate,
                     videoSummary: item.videoSummary,
-                    videoPlayNumber: item.videoPlayNumber,
                     videoChannel: item.videoChannel,
                     videoDirector: item.videoDirector,
                     videoArea: item.videoArea,

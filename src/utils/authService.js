@@ -129,6 +129,10 @@ export default {
         return await http.post('/api/existsVideo', video)
     },
 
+    async increaseViewCount(videoId){
+        return await http.post('/api/increaseViewCount',{videoId:videoId})
+    },
+
     //  Album
 
     async getVideoAlbums(videoAlbum) {

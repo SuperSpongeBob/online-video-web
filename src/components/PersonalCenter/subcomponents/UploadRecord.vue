@@ -12,7 +12,6 @@
             <el-table-column prop="videoArea" label="地区" width="60" />
             <el-table-column prop="videoActor" label="演员" width="120" />
             <el-table-column prop="videoLastUpdate" label="最新集数" width="90" />
-            <el-table-column prop="videoPlayNumber" label="播放量" width="70" show-overflow-tooltip />
             <el-table-column prop="videoFavoriteNumber" label="收藏量" width="70" show-overflow-tooltip />
             <el-table-column prop="videoUpdateTime" label="更新时间" width="90" show-overflow-tooltip />
             <el-table-column prop="videoPostPath" label="海报" width="120" header-align="center">
@@ -499,7 +498,7 @@ export default {
             try {
                 // const response = await axios.post(`http://localhost:8080/api/videoAlbums`, this.videoAlbum, { withCredentials: true });
                 const response = await authService.getVideoAlbums(this.videoAlbum)
-                // console.log(response.data)
+                console.log(response.data)
 
                 //  将数据映射到albumData中
                 this.albumData = response.data.map(item => ({
@@ -510,7 +509,6 @@ export default {
                     videoUpdateTime: item.videoUpdateTime,
                     videoAlbumName: item.videoAlbumName,
                     videoSummary: item.videoSummary,
-                    videoPlayNumber: item.videoPlayNumber,
                     videoFavoriteNumber: item.videoFavoriteNumber,
                     videoDirector: item.videoDirector,
                     videoChannel: item.videoChannel,

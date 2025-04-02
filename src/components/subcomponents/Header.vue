@@ -41,7 +41,7 @@
                             <el-dropdown-item @click="goToLogin">登录<el-icon>
                                     <ArrowRight />
                                 </el-icon></el-dropdown-item>
-                            <el-dropdown-item @click="test">设置</el-dropdown-item>
+                            <!-- <el-dropdown-item @click="test">设置</el-dropdown-item> -->
                             <el-dropdown-item @click="goToRegister">注册<el-icon>
                                     <ArrowRight />
                                 </el-icon></el-dropdown-item>

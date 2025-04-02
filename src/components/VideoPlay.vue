@@ -190,6 +190,7 @@ export default {
                 //  获取视频信息
                 if (response.status == 200) {
                     this.url = await authService.videoURL(movieId)
+                    await authService.increaseViewCount(movieId)
                     await authService.increasePlayNum(movieId)
                 }
 
