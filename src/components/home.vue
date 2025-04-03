@@ -1,4 +1,76 @@
 <template>
+    <div>
+      <div class="video-list">
+        <div v-for="video in videos" :key="video.videoId" class="video-item">
+          <!-- 视频展示内容 -->
+          <h3>{{ video.videoName }}</h3>
+          <p>播放量: {{ video.viewCount }}</p>
+        </div>
+      </div>
+      
+      <div class="pagination">
+        <button @click="prevPage" :disabled="page === 1">上一页</button>
+        <span>第 {{ page }} 页</span>
+        <button @click="nextPage" :disabled="!hasMore">下一页</button>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+import authService from '../utils/authService';
+  
+  export default {
+    data() {
+      return {
+        videos: [],
+        page: '',
+        size: '',
+        total: 0,
+        hasMore: true
+      };
+    },
+    created() {
+      this.fetchVideos();
+    },
+    methods: {
+      async fetchVideos() {
+        try {
+          const response = await axios.get( `${authService.serverAddress()}/api/recommendVideos`, {
+            params: {
+              page: this.page,
+              size: this.size
+            }
+          });
+          
+          this.videos = response.data;
+          this.total = response.data.total;
+        //   this.hasMore = this.page * this.size < this.total;
+        } catch (error) {
+          console.error('获取视频失败:', error);
+        }
+      },
+      nextPage() {
+        this.page++;
+        this.fetchVideos();
+      },
+      prevPage() {
+        if (this.page > 1) {
+          this.page--;
+          this.fetchVideos();
+        }
+      },
+      // 刷新时重置页码
+      handleRefresh() {
+        this.page = 1;
+        this.fetchVideos();
+      }
+    }
+  };
+  </script>
+
+
+<!-- <template>
     <div class="poster-container">
         <el-image
           class="poster-image"
@@ -47,7 +119,7 @@ import authService from '../utils/authService';
     cursor: pointer;
     display: block;
   }
-  </style>
+  </style> -->
 
 
 <!-- <template>

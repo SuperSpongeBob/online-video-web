@@ -109,6 +109,10 @@ export default {
         return await http.post('/api/IndexVideos', VideoDate)
     },
 
+    async getRecommendVideos(page,size){
+        return await http.get('/api/recommendVideos',{params:{page:page,size:size}})
+    },
+
     async getVideos(videoDate) {
         return await http.post('/api/videos', videoDate)
     },
@@ -150,11 +154,7 @@ export default {
     async deleteAlbum(videoAlbum) {
         return await http.post('/api/deleteAlbum', videoAlbum)
     },
-
-    async increasePlayNum(videoId){
-        return await http.post('/api/increasePlayNum',{videoId:videoId})
-    },
-
+    
     // Comment
 
     async videoComment(reqComment) {

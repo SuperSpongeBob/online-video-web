@@ -12,9 +12,9 @@
 
                             </router-link>
 
-                            <router-link class="alink" to="/index/indexBody">
+                            <router-link class="alink" to="/index/recommend">
                                 <el-menu-item index="1-2">
-                                    短视频
+                                    推荐
                                 </el-menu-item>
                             </router-link>
 

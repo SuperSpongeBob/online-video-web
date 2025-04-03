@@ -32,9 +32,10 @@
                                 }">
                                     {{ movie.videoIsVip === 2 ? "VIP" : "免费" }}
                                 </div>
-                                <div style="height: 180px;display: flex;justify-content: center;align-items:start;" @click="goToMoviePage(movie)">
+                                <div style="height: 180px;display: flex;justify-content: center;align-items:start;"
+                                    @click="goToMoviePage(movie)">
                                     <img class="image" :src="movie.thumbnailPath"
-                                        style="max-width: 240px; max-height: 180px;object-fit: contain;" 
+                                        style="max-width: 240px; max-height: 180px;object-fit: contain;"
                                         @error="handleError" />
                                 </div>
                                 <div style="padding: 4px">
@@ -69,41 +70,31 @@ export default {
         return {
             loading: false,
             movies: [],
-            req: {
-                videoIsVip: this.videoIsVip,             //  父组件传来的值
-                pageNum: 1, //  初始化页码
-                pageSize: 28, //  设置加载每页大小
-                isLoading: false, //  是否真正加载
-                videoAlbum: {
-                },
-            },
-            video: {
-                pageNum: 1, //  初始化页码
-                pageSize: 28, //  设置加载每页大小
-            },
+            pageNum: 1, //  初始化页码
+            pageSize: 28, //  设置加载每页大小
+            isLoading: false, //  是否真正加载
         };
     },
     methods: {
         async fetchMovies() {
             try {
-                if (this.req.isLoading) return;
-                this.req.isLoading = true;
-                // const response = await axios.post(`http://localhost:8080/api/videos`, this.req);
-                const response = await authService.getIndexVideos(this.req)
-                console.log(response)
+                if (this.isLoading) return;
+                this.isLoading = true;
+                const response = await authService.getRecommendVideos(this.pageNum, this.pageSize)
+                // console.log(response.data)
                 if (response.status == 200) {
 
                     // 为每个元素的 videoAlbum.videoPostPath 属性添加前缀并处理 null 值
                     const newMovies = response.data.map(item => {
-                        if(item.thumbnailPath){
-                            return{
+                        if (item.thumbnailPath) {
+                            return {
                                 ...item,
-                                thumbnailPath:`${authService.serverAddress()}/images/${item.thumbnailPath}`
+                                thumbnailPath: `${authService.serverAddress()}/images/${item.thumbnailPath}`
                             }
-                        }else{
-                            return{
+                        } else {
+                            return {
                                 ...item,
-                                thumbnailPath:fallbackImage
+                                thumbnailPath: fallbackImage
                             }
                         }
                     });
@@ -111,8 +102,8 @@ export default {
                     // const newMovies = response.data;
                     this.movies = [...this.movies, ...newMovies];
                     // console.log(this.movies)
-                    this.req.pageNum++;
-                    this.req.isLoading = false;
+                    this.pageNum++;
+                    this.isLoading = false;
                 } else if (response.status == 204) {
                     this.$message.warning({ message: '到底啦~~~~~', showClose: true })
                     console.log('没有数据了')
@@ -146,7 +137,6 @@ export default {
         },
         handleError(event) {
             event.target.src = fallbackImage
-            // event.target.onError
         },
     },
     mounted() {
@@ -154,3 +144,53 @@ export default {
     },
 };
 </script>
+
+
+<!-- <template>
+  <div class="video-container">
+    <video controls autoplay  :src="url" type="video/mp4">
+      <source>
+      您的浏览器不支持视频播放。
+    </video>
+  </div>
+</template>
+
+<script>
+import authService from '../../utils/authService';
+
+export default {
+  data() {
+    return {
+      url: '',
+
+    }
+  },
+  name: 'VideoPlayer',
+  methods: {
+    async getVideo() {
+    const videoId = 3
+    this.url =await authService.videoURL(videoId)
+    }
+  },
+  mounted() {
+    this.getVideo()
+  }
+};
+</script>
+
+<style scoped>
+/* .video-container {
+  width: 100%;
+  max-width: 800px;
+ 
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+video {
+  width: 100%;
+  height: 500px;
+}
+</style> -->

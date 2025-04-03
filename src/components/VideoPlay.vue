@@ -191,7 +191,6 @@ export default {
                 if (response.status == 200) {
                     this.url = await authService.videoURL(movieId)
                     await authService.increaseViewCount(movieId)
-                    await authService.increasePlayNum(movieId)
                 }
 
             } catch (error) {

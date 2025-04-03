@@ -26,18 +26,18 @@
             </div>
         </div>
 
-        
+
     </div>
 </template>
 
 <script setup>
 import Header from "./subcomponents/Header.vue";
-import IndexBody from "./subcomponents/IndexBody.vue";
+import IndexBody from "./subcomponents/Recommend.vue";
 // import Foot from './subcomponents/Foot.vue';
 import Aside from "./subcomponents/Aside.vue";
 </script>
 
-<style  scoped>
+<style scoped>
 .index-container {
     overflow-y: hidden;
     height: 100vh;
@@ -49,8 +49,8 @@ import Aside from "./subcomponents/Aside.vue";
         display: flex;
 
         /* .index-main-body { */
-            /* padding: 15px; */
-            /* flex: 1; */
+        /* padding: 15px; */
+        /* flex: 1; */
         /* } */
     }
 }
