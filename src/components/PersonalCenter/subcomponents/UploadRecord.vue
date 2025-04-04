@@ -525,10 +525,8 @@ export default {
 
         //  根据用户id获取视频信息
         async getVideo() {
-            // this.videoAlbum.userId = 41
             //  从当前会话中获取用户Id
             this.video.videoAlbum.userId = JSON.parse(sessionStorage.getItem('userInfo')).userId
-            // const response = await axios.post('http://localhost:8080/api/videos', this.video)
             const response = await authService.getVideos(this.video)
             // console.log(response.data)
 

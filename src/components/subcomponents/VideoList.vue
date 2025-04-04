@@ -93,7 +93,6 @@ export default {
                 console.log(response)
                 if (response.status == 200) {
 
-                    // 为每个元素的 videoAlbum.videoPostPath 属性添加前缀并处理 null 值
                     const newMovies = response.data.map(item => {
                         if(item.thumbnailPath){
                             return{
