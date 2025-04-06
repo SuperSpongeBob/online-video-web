@@ -42,7 +42,7 @@ export default {
         return {
             user: {
                 userPhone: "18613160000",
-                userPassword: "Zyxzyx2004"
+                userPassword: ""
             },
             loginType:'user',
         }
