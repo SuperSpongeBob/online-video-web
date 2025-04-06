@@ -1,8 +1,96 @@
 <template>
     <div>
+        <el-date-picker v-model="dateRange" type="daterange" range-separator="至" start-placeholder="开始日期"
+            end-placeholder="结束日期"></el-date-picker>
+        <el-button @click="searchUsers">查询</el-button>
+    </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+import axios from 'axios';
+import { formatDate } from '../utils/dateUtils';
+
+export default {
+    data() {
+        return{
+          dateRange : ref([])  
+        }
+        
+    },
+    methods: {
+        searchUsers() {
+            let startTime = null;
+            let endTime = null;
+            if (this.dateRange.length === 2) {
+                startTime = new Date(this.dateRange[0]).getTime();
+                endTime = new Date(this.dateRange[1]).getTime();
+            }
+            console.log(startTime + "+" + endTime)
+        }
+    }
+}
+</script>
+
+<style scoped>
+/* 可根据需要添加样式 */
+</style>
+
+<!-- <template>
+    <div>
+      <el-date-picker
+        v-model="dateRange"
+        type="daterange"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        @change="handleDateChange"
+      ></el-date-picker>
+      <el-table :data="userList" stripe>
+        <el-table-column prop="id" label="用户ID"></el-table-column>
+        <el-table-column prop="username" label="用户名"></el-table-column>
+        <el-table-column prop="user_add_time" label="用户添加时间">
+          <template #default="{ row }">
+            {{ formatDate(row.user_add_time) }}
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  import axios from 'axios';
+  import { formatDate } from '../utils/dateUtils';
+  
+  const dateRange = ref([]);
+  const userList = ref([]);
+  
+  const handleDateChange = async (dates) => {
+    if (dates && dates.length === 2) {
+      const startTimestamp = new Date(dates[0]).getTime();
+      const endTimestamp = new Date(dates[1]).getTime();
+      console.log(startTimestamp+"+"+endTimestamp)
+      return
+      try {
+        const response = await axios.get('/api/users', {
+          params: {
+            start: startTimestamp,
+            end: endTimestamp
+          }
+        });
+        userList.value = response.data;
+      } catch (error) {
+        console.error('查询用户信息失败:', error);
+      }
+    }
+  };
+  </script> -->
+
+<!-- <template>
+    <div>
       <div class="video-list">
         <div v-for="video in videos" :key="video.videoId" class="video-item">
-          <!-- 视频展示内容 -->
           <h3>{{ video.videoName }}</h3>
           <p>播放量: {{ video.viewCount }}</p>
         </div>
@@ -67,59 +155,61 @@ import authService from '../utils/authService';
       }
     }
   };
-  </script>
+  </script> -->
 
 
 <!-- <template>
     <div class="poster-container">
-        <el-image
-          class="poster-image"
-          :src="serverAddress+currentPosterUrl"
-          fit="cover"
-        />
+        <el-image class="poster-image" :src="serverAddress + currentPosterUrl" fit="cover" />
     </div>
+    <h3>{{ time }}</h3>
+    <h3>{{ formatDate(time) }}</h3>
     <el-button @click="test">test</el-button>
-  </template>
-  
-  <script>
+</template>
+
+<script>
 import axios from 'axios';
 import authService from '../utils/authService';
+import { formatDate } from '../utils/dateUtils';
 
-  export default{
-    data(){
-        return{
-            serverAddress:authService.serverAddress(),
-            currentPosterUrl : '/images/3c54e10e-cb96-4921-bd7d-3786d287aece_吞噬星空.jpg'
+export default {
+    data() {
+        return {
+            serverAddress: authService.serverAddress(),
+            currentPosterUrl: '/images/3c54e10e-cb96-4921-bd7d-3786d287aece_吞噬星空.jpg',
+            time: Date.now()
         }
     },
-    methods:{
-        async test(){
-            const danmaku={userId:46}
-            const response = await axios.post('http://localhost:8080/api/getDanmaku',danmaku)
+    methods: {
+        async test() {
+            const danmaku = { userId: 46 }
+            const response = await axios.post('http://localhost:8080/api/getDanmaku', danmaku)
             console.log(response)
-  }
+        },
+        //  格式化时间戳
+        formatDate:formatDate
     }
-  }
-  
+}
+
 //   const currentPosterUrl = ("https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg")
 
- 
-  </script>
-  
-  <style scoped>
-  .poster-container {
+
+</script>
+
+<style scoped>
+.poster-container {
     width: 100px;
     height: 100px;
     display: inline-block;
-  }
-  
-  .poster-image {
+}
+
+.poster-image {
     width: 100%;
     height: 100%;
     cursor: pointer;
     display: block;
-  }
-  </style> -->
+}
+</style> -->
 
 
 <!-- <template>

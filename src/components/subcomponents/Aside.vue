@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-container style="height: 600px; border: 1px solid #eee">
+        <el-container style="height: 300px; border: 1px solid #eee">
             <el-aside width="150px" style="background-color: white">
                 <el-menu  :default-active="activeIndex" @select="handleSelect">
                         <el-menu-item-group>
@@ -29,22 +29,14 @@
                                     免费专区
                                 </el-menu-item>
                             </router-link>
-
-
                         </el-menu-item-group>
-
                 </el-menu>
             </el-aside>
-
-
-
         </el-container>
-
     </div>
 </template>
 
 <script>
-
 export default {
     data() {
         return {

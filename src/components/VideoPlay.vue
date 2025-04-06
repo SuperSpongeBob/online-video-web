@@ -205,21 +205,21 @@ export default {
         //  加载更多评论
         async loadMoreComments() {
             // try {
-                const urlParams = new URLSearchParams(window.location.search)
-                const movieId = urlParams.get("movieId")              //获取movieId
-                this.reqComment.videoId = this.addComment.videoId = movieId
+            const urlParams = new URLSearchParams(window.location.search)
+            const movieId = urlParams.get("movieId")              //获取movieId
+            this.reqComment.videoId = this.addComment.videoId = movieId
 
-                if (this.reqComment.isLoading) return;               // 如果已经在加载，直接返回
-                this.reqComment.isLoading = true;                   // 设置加载状态为true
-                // console.log(this.reqComment)
-                // 获取评论
-                // const response = await axios.post(`http://localhost:8080/api/videoComment`, this.reqComment);
-                const response = await authService.videoComment(this.reqComment)
-                const reGetComments = await response.data;
-                this.comments = [...this.comments, ...reGetComments]; // 合并新数据
-                // console.log(this.comments)
-                this.reqComment.pageNum++;                   // 增加页码
-                this.reqComment.isLoading = false;           // 重置加载状态
+            if (this.reqComment.isLoading) return;               // 如果已经在加载，直接返回
+            this.reqComment.isLoading = true;                   // 设置加载状态为true
+            // console.log(this.reqComment)
+            // 获取评论
+            // const response = await axios.post(`http://localhost:8080/api/videoComment`, this.reqComment);
+            const response = await authService.videoComment(this.reqComment)
+            const reGetComments = await response.data;
+            this.comments = [...this.comments, ...reGetComments]; // 合并新数据
+            // console.log(this.comments)
+            this.reqComment.pageNum++;                   // 增加页码
+            this.reqComment.isLoading = false;           // 重置加载状态
             // } catch (error) {
             //     console.error(error)
             // }
@@ -247,13 +247,17 @@ export default {
 
                 //  从session中获取用户信息
                 this.addComment.videoCommentTime = (new Date().toLocaleString());
+                if(this.userInfo==null){
+                    this.$message.warning({message:'请登录'})
+                    return
+                }
                 const userId = this.userInfo.userId
                 console.log(userId)
 
                 if (!this.addComment.videoCommentContent.trim()) {
                     this.$message.warning({ message: '评论内容不能为空', showClose: true });
                     return;
-                } else if (userId == null) {
+                } else if (this.userInfo==null||userId == null) {
                     this.$message.warning({ message: '登录后即可评论', showClose: true })
                     return;
                 } else {
@@ -293,7 +297,7 @@ export default {
 
         //  获取弹幕数据
         async getDanmakus() {
-            const danmaku = { videoId: this.getVideoIdByURL() ,userId:46}
+            const danmaku = { videoId: this.getVideoIdByURL(), userId: 46 }
             // const response = await axios.post('http://localhost:8080/api/getDanmaku', danmaku)
             const response = await authService.getDanmakus(danmaku)
             const dbDanmakus = response.data
@@ -312,7 +316,7 @@ export default {
         async sendDanmaku() {
             try {
                 if (this.danmakuText.trim() === '') return
-                if (this.userInfo.userId == null) {
+                if (this.userInfo == null || this.userInfo.userId == null) {
                     this.$message.warning({ message: '请先登录', showClose: true })
                     return;
                 }
@@ -337,7 +341,8 @@ export default {
                 //  添加弹幕数据到服务器
                 // const response = await axios.post('http://localhost:8080/api/addDanmaku', this.addDanmaku)
                 const response = await authService.addDanmaku(this.addDanmaku)
-                if (response.status == 200) {
+                console.log(response)
+                if (response.data == true) {
                     this.danmakus.push(danmaku)
                     console.log(this.danmakus)
                     //  清空输入框
@@ -411,8 +416,8 @@ export default {
             const response = await authService.historyByHistoryId(condition)
             console.log(response)
             this.watchedSeconds = response.data.watchedSeconds
-            
-            
+
+
 
 
         },
@@ -425,7 +430,7 @@ export default {
                 videoId: this.getVideoIdByURL(),
                 userId: this.userInfo.userId,
                 watchedSeconds: currentTime,
-                timestamp:Date.now()
+                timestamp: Date.now()
             }
             const jsonData = JSON.stringify(historyData)
             const serverAddress = authService.serverAddress()

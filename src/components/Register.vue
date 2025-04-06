@@ -97,7 +97,8 @@ export default {
         // 提交表单事件
         async submitForm(formName) {
             //获取当前注册时间
-            this.form.userAddTime = ref(new Date().toLocaleString());
+            // this.form.userAddTime = ref(new Date().toLocaleString());
+            this.form.userAddTime = Date.now()
 
             this.$refs[formName].validate((valid) => {
                 const registerData = { user: this.form, userRole: { roleId: "1" } }

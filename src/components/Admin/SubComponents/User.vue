@@ -39,9 +39,11 @@
 
 
                     <el-form-item label="注册时间">
-                        <el-date-picker v-model="queryUser.date1" type="date" aria-label="Pick a date"
+                        <el-date-picker v-model="this.dateRange" type="daterange" unlink-panels range-separator="至"
+                            start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                        <!-- <el-date-picker v-model="queryUser.date1" type="date" aria-label="Pick a date"
                             placeholder="选择日期" />
-                        <el-time-picker v-model="queryUser.date2" aria-label="Pick a time" placeholder="选择时间" />
+                        <el-time-picker v-model="queryUser.date2" aria-label="Pick a time" placeholder="选择时间" /> -->
                     </el-form-item>
 
                     <el-form-item>
@@ -66,7 +68,11 @@
                 <el-table-column prop="userGender" label="性别" width="80" show-overflow-tooltip />
                 <el-table-column prop="userPhone" label="电话" width="220" show-overflow-tooltip />
                 <el-table-column prop="userEmail" label="邮箱" width="220" show-overflow-tooltip />
-                <el-table-column prop="userAddTime" label="注册时间" width="220" show-overflow-tooltip />
+                <el-table-column prop="userAddTime" label="注册时间" width="220" show-overflow-tooltip>
+                    <template #default="{ row }">
+                        <span>{{ formatDate(row.userAddTime) }}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" label="Operations" min-width="100">
                     <template #default="scope">
                         <el-button link type="primary" size="small" @click="edit(scope.row)">编辑</el-button>
@@ -112,8 +118,8 @@
                 </el-form-item>
 
                 <el-form-item label="密码">
-                    <el-input v-model="dialogUserData.userPassword" @input="handleInput" type="password" placeholder="设置密码"
-                        show-password />
+                    <el-input v-model="dialogUserData.userPassword" @input="handleInput" type="password"
+                        placeholder="设置密码" show-password />
                 </el-form-item>
 
             </el-form>
@@ -130,6 +136,7 @@
 
 <script>
 import authService from '../../../utils/authService';
+import { formatDate } from '../../../utils/dateUtils';
 
 export default {
     data() {
@@ -147,10 +154,14 @@ export default {
             queryData: [],              //  查询后的数据
             conterDialogVisible: false, //  false时隐藏
             dialogUserData: {},         //  对话框中的数据、管理员操作的数据
+            dateRange: null,
 
         }
     },
     methods: {
+        //  格式化时间戳
+        formatDate: formatDate,
+
         //  监测密码输入框，自动删除输入的空格
         handleInput(value) {
             this.dialogUserData.userPassword = value.replace(/\s+/g, '')
@@ -223,8 +234,6 @@ export default {
         //  筛选按钮点击时
         async query() {
             console.log(this.queryUser)
-            this.queryUser.userAddTime = this.formattedDate     //  如果有日期将日期赋值传到后端
-
             this.queryData = []                                 //  每次点击筛选按钮时重置数据，并且恢复页数
             this.queryUser.pageNum = 1
             this.queryUser.isLoading = false
@@ -234,11 +243,21 @@ export default {
 
         //  根据条件查询用户信息
         async queryUsers() {
+
             try {
                 if (this.queryUser.isLoading) return      //  如果正在加载直接退出
                 this.queryUser.isLoading = true
+                let startTime = null
+                let endTime = null;
+                if (this.dateRange &&this.dateRange.length == 2) {
+                    startTime = new Date(this.dateRange[0]).getTime();
+                    endTime = new Date(this.dateRange[1]).getTime();
+                    console.log(startTime + "+" + endTime)
+                }
+                console.log(this.queryUser)
+                // return
                 // const response = await axios.post('http://localhost:8080/admin/users', this.queryUser)
-                const response = await authService.adminUsers(this.queryUser)
+                const response = await authService.adminUsers(this.queryUser,startTime,endTime)
                 console.log(response)
                 if (response.data != '' && response.data != null) {
                     const formattedNewUserData = response.data.map(item => ({
@@ -276,30 +295,6 @@ export default {
         }
     },
     computed: {
-        //  日期格式化
-        formattedDate() {
-            //  const关键字不能被重新赋值
-            let formatDate1 = ''                //  初始化格式化后的日期
-            let formatDate2 = ''
-            if (this.queryUser.date1 != null) {                 //  格式化年、月、日
-                const date1 = new Date(this.queryUser.date1)
-                const year = date1.getFullYear();
-                const month = String(date1.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-                const day = String(date1.getDate()).padStart(1, '0');
-                formatDate1 = `${year}/${month}/${day}`
-
-            }
-            if (this.queryUser.date2 != null) {                 //  格式化时、分、秒
-                const date2 = new Date(this.queryUser.date2)
-                const hours = String(date2.getHours()).padStart(2, '0');
-                const minutes = String(date2.getMinutes()).padStart(2, '0');
-                const seconds = String(date2.getSeconds()).padStart(2, '0');
-                formatDate2 = `${hours}:${minutes}:${seconds}`
-            }
-            const combinedFormat = `${formatDate1} ${formatDate2}`.trim(); // Use trim() to remove any leading/trailing spaces
-
-            return combinedFormat
-        }
     },
     mounted() {
         this.queryUsers()       //  页面初次打开时默认查询所有用户，筛选条件全为空

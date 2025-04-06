@@ -102,7 +102,8 @@ export default {
 
         async submit(formName) {
             //  获取当前注册时间
-            this.form.userAddTime = ref(new Date().toLocaleString());
+            // this.form.userAddTime = ref(new Date().toLocaleString());
+            this.form.userAddTime = Date.now()
 
             this.$refs[formName].validate(async (valid) => {
                 if (valid) {

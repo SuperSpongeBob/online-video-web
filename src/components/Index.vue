@@ -1,16 +1,3 @@
-<!-- <template>
-    <div class="index-container">
-      <el-header><Header/></el-header>
-      <div class="index-main-box">
-        <el-aside width="200px"><Aside/></el-aside>
-        <div class="index-main-body">
-             <router-view></router-view>
-        </div>
-      </div>
-      
-    </div>
-</template> -->
-
 <template>
     <div class="index-container">
         <!-- 头部区域 -->
@@ -25,15 +12,14 @@
                 <router-view></router-view>
             </div>
         </div>
-
+        <Foot></Foot>
 
     </div>
 </template>
 
 <script setup>
 import Header from "./subcomponents/Header.vue";
-import IndexBody from "./subcomponents/Recommend.vue";
-// import Foot from './subcomponents/Foot.vue';
+import Foot from './subcomponents/Foot.vue';
 import Aside from "./subcomponents/Aside.vue";
 </script>
 
@@ -45,18 +31,8 @@ import Aside from "./subcomponents/Aside.vue";
     flex-direction: column;
 
     .index-main-box {
-        height: 80vh;
+        height: 55vh;
         display: flex;
-
-        /* .index-main-body { */
-        /* padding: 15px; */
-        /* flex: 1; */
-        /* } */
     }
 }
 </style>
-
-<!-- npm install --force
-npm install --legacy-peer-deps
-
--->

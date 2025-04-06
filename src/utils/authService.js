@@ -191,8 +191,8 @@ export default {
 
     //  admin
 
-    async adminUsers(queryUser) {
-        return await http.post(`/admin/users`, queryUser)
+    async adminUsers(queryUser,startTime,endTime) {
+        return await http.post(`/admin/users`, queryUser,{params:{startTime,endTime}})
     },
 
     async adminInsertUser(userData) {
