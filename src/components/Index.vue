@@ -12,7 +12,7 @@
                 <router-view></router-view>
             </div>
         </div>
-        <Foot></Foot>
+        <!-- <Foot></Foot> -->
 
     </div>
 </template>

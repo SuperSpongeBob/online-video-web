@@ -6,7 +6,7 @@
                 <el-input v-model="user.userPhone" placeholder="手机号" />
             </el-form-item>
             <el-form-item label="密码">
-                <el-input type="password" v-model="user.userPassword" placeholder="密码" />
+                <el-input type="password" v-model="user.userPassword" placeholder="密码" show-password/>
             </el-form-item>
             <el-form-item label="身份">
                     <el-radio-group v-model="loginType">
@@ -42,7 +42,7 @@ export default {
         return {
             user: {
                 userPhone: "18613160000",
-                userPassword: ""
+                userPassword: "Zyxzyx2004"
             },
             loginType:'user',
         }

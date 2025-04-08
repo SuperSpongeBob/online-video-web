@@ -58,6 +58,7 @@
                     <el-table-column prop="videoPath" label="视频路径" width="160" show-overflow-tooltip />
                     <el-table-column prop="videoTitle" label="视频标题" show-overflow-tooltip />
                     <el-table-column prop="videoApprovalStatus" label="视频状态" width="100" show-overflow-tooltip />
+                    <el-table-column prop="viewCount" label="播放量" width="80" show-overflow-tooltip/>
                     <el-table-column prop="duration" label="视频时长" width="90" show-overflow-tooltip>
                         <template #default="{ row }">
                             {{ formatDuration(row.duration) }}
@@ -643,13 +644,14 @@ export default {
                         videoPath: item.videoPath,
                         videoTitle: item.videoTitle,
                         duration: item.duration,
+                        viewCount:item.viewCount,
                         videoApprovalStatus: item.videoApprovalStatus,
                         thumbnailPath: this.serverAddress + '/images/' + item.thumbnailPath,
                         videoChannel: item.videoAlbum.videoChannel
                     }))
                     //  将新数据合并到现有数据中
                     this.videoData = [...this.videoData, ...formattedNewVideoData]
-                    console.log(this.videoData)
+                    // console.log(this.videoData)
                     this.videoCondition.pageNum++
                     this.videoCondition.isLoading = false
                     return formattedNewVideoData

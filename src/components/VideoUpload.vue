@@ -138,7 +138,7 @@
                                 </div>
                                 <div style="height: 180px;display: flex;justify-content: center;align-items:start;">
                                     <img class="image" :src="this.thumbnailUrl"
-                                        style="max-width: 240px; max-height: 180px;object-fit: contain; background: #f0f0f0;"
+                                        style="max-width: 240px; height: 180px;background: #f0f0f0;"
                                         @load="handleImage" />
                                 </div>
                                 <div style="padding: 4px; padding-top: 0px">

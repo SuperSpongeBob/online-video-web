@@ -127,6 +127,7 @@
             <el-table-column fixed="left" width="50" property="videoId" label="id" header-align="center" />
             <el-table-column width="180" property="videoName" label="视频名称" header-align="center" />
             <el-table-column property="videoTitle" label="标题" header-align="center" />
+            <el-table-column width="80" property="viewCount" label="播放量"/>
             <el-table-column width="100" property="duration" label="视频时长">
                 <template #default="{ row }">
                     {{ formatDuration(row.duration) }}
@@ -540,6 +541,7 @@ export default {
                 videoTitle: item.videoTitle,
                 videoPath: item.videoPath,
                 duration: item.duration,
+                viewCount:item.viewCount,
                 thumbnailPath: authService.serverAddress() + "/images/" + item.thumbnailPath
             }))
             // console.log(this.videoData)

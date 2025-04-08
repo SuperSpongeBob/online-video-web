@@ -19,7 +19,7 @@
                         </template>
                         <template #default>
                             <el-card :body-style="{ padding: '0px', marginBottom: '1px' }"
-                                style="width: 240px; height: 250px; margin: 5px">
+                                style="width: 240px; height: 250px; margin: 6px;">
                                 <div v-if="!loading" :style="{
                                     position: 'absolute',
                                     top: '8px',
@@ -32,10 +32,33 @@
                                 }">
                                     {{ movie.videoIsVip === 2 ? "VIP" : "免费" }}
                                 </div>
-                                <div style="height: 180px;display: flex;justify-content: center;align-items:start;" @click="goToMoviePage(movie)">
+                                <div v-if="!loading" :style="{
+                                    position: 'absolute',
+                                    top: '160px',
+                                    left: '8px',
+                                    padding: '2px 4px',
+                                    color: 'white',
+                                    borderRadius: '3px',
+                                    fontSize: '12px',
+                                }">
+                                    <el-icon>
+                                        <View />
+                                    </el-icon>&nbsp;{{ movie.viewCount }}
+                                </div>
+                                <div v-if="!loading" :style="{
+                                    position: 'absolute',
+                                    top: '160px',
+                                    right: '8px',
+                                    padding: '2px 4px',
+                                    color: 'white',
+                                    borderRadius: '3px',
+                                    fontSize: '12px',
+                                }">{{ formatDuration(movie.duration) }}
+                                </div>
+                                <div style="height: 180px;display: flex;justify-content: center;align-items:start;"
+                                    @click="goToMoviePage(movie)">
                                     <img class="image" :src="movie.thumbnailPath"
-                                        style="max-width: 240px; max-height: 180px;object-fit: contain;" 
-                                        @error="handleError" />
+                                        style="max-width: 240px; height: 180px;" @error="handleError" />
                                 </div>
                                 <div style="padding: 4px">
                                     <div class="bottom card-header"
@@ -84,6 +107,13 @@ export default {
         };
     },
     methods: {
+        // 格式化时长
+        formatDuration(seconds) {
+            const h = Math.floor(seconds / 3600)
+            const m = Math.floor((seconds % 3600) / 60)
+            const s = seconds % 60
+            return `${h ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+        },
         async fetchMovies() {
             try {
                 if (this.req.isLoading) return;
@@ -94,15 +124,15 @@ export default {
                 if (response.status == 200) {
 
                     const newMovies = response.data.map(item => {
-                        if(item.thumbnailPath){
-                            return{
+                        if (item.thumbnailPath) {
+                            return {
                                 ...item,
-                                thumbnailPath:`${authService.serverAddress()}/images/${item.thumbnailPath}`
+                                thumbnailPath: `${authService.serverAddress()}/images/${item.thumbnailPath}`
                             }
-                        }else{
-                            return{
+                        } else {
+                            return {
                                 ...item,
-                                thumbnailPath:fallbackImage
+                                thumbnailPath: fallbackImage
                             }
                         }
                     });
